@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VOS ERP PMS System</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Landing Page -->
+    <div id="landing-page" class="view-section active">
+        <div class="landing-content">
+            <h2 class="welcome-text">Welcome to</h2>
+            <div class="tile" id="enter-app-tile">
+                <i class="fa-solid fa-chart-line tile-icon"></i>
+                <span>VOS ERP PMS System</span>
+            </div>
+            <p class="subtitle">Performance Management System</p>
+        </div>
+        <div class="circles-background">
+            <div class="circle circle-1"></div>
+            <div class="circle circle-2"></div>
+            <div class="circle circle-3"></div>
+        </div>
+    </div>
+
+    <!-- Main App Shell -->
+    <div id="app-shell" class="view-section" style="display: none;">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fa-solid fa-layer-group logo-icon"></i>
+                <h2>VOS PMS</h2>
+            </div>
+            
+            <div class="role-selector">
+                <label for="current-role">Simulate Role:</label>
+                <select id="current-role">
+                    <option value="admin">Admin / HR</option>
+                    <option value="employee">Employee</option>
+                    <option value="manager">Reporting Manager</option>
+                    <option value="l2manager">L2 Manager</option>
+                </select>
+            </div>
+
+            <nav class="sidebar-nav">
+                <!-- Admin / HR Navigation -->
+                <div class="nav-group role-admin">
+                    <p class="nav-title">Admin / HR</p>
+                    <a href="#" class="nav-item active" data-target="dashboard"><i class="fa-solid fa-house"></i> Dashboard</a>
+                    
+                    <div class="nav-dropdown">
+                        <a href="#" class="nav-item dropdown-toggle"><i class="fa-solid fa-database"></i> Masters <i class="fa-solid fa-chevron-down arrow"></i></a>
+                        <div class="dropdown-content">
+                            <a href="#" class="nav-subitem" data-target="master-kra">KRA Master</a>
+                            <a href="#" class="nav-subitem" data-target="master-kpi">KPI Master</a>
+                            <a href="#" class="nav-subitem" data-target="master-uom">UOM Master</a>
+                            <a href="#" class="nav-subitem" data-target="master-potential">Potential Factor Master</a>
+                            <a href="#" class="nav-subitem" data-target="master-rating">Star Rating Master</a>
+                            <a href="#" class="nav-subitem" data-target="master-grade">Grade Master</a>
+                        </div>
+                    </div>
+
+                    <div class="nav-dropdown">
+                        <a href="#" class="nav-item dropdown-toggle"><i class="fa-solid fa-users-gear"></i> Allocations <i class="fa-solid fa-chevron-down arrow"></i></a>
+                        <div class="dropdown-content">
+                            <a href="#" class="nav-subitem" data-target="alloc-kpi">KPI Allocation</a>
+                            <a href="#" class="nav-subitem" data-target="alloc-potential">Potential Factor Allocation</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Employee Navigation -->
+                <div class="nav-group role-employee" style="display: none;">
+                    <p class="nav-title">Employee</p>
+                    <a href="#" class="nav-item" data-target="emp-my-kpis"><i class="fa-solid fa-list-check"></i> My KPIs</a>
+                    <a href="#" class="nav-item" data-target="emp-self-assessment"><i class="fa-solid fa-clipboard-user"></i> Self Assessment</a>
+                    <a href="#" class="nav-item" data-target="emp-behavioural-view"><i class="fa-solid fa-face-smile"></i> Behavioural Assessment</a>
+                </div>
+
+                <!-- Manager Navigation -->
+                <div class="nav-group role-manager" style="display: none;">
+                    <p class="nav-title">Reporting Manager</p>
+                    <a href="#" class="nav-item" data-target="mgr-kpi-review"><i class="fa-solid fa-chart-pie"></i> KPI Review</a>
+                    <a href="#" class="nav-item" data-target="mgr-behavioural-review"><i class="fa-solid fa-users-viewfinder"></i> Behavioural Review</a>
+                </div>
+
+                <!-- L2 Manager Navigation -->
+                <div class="nav-group role-l2manager" style="display: none;">
+                    <p class="nav-title">L2 Manager</p>
+                    <a href="#" class="nav-item" data-target="l2mgr-kpi-review"><i class="fa-solid fa-check-double"></i> KPI Review</a>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="#" id="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Exit Prototype</a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="header-left">
+                    <button id="toggle-sidebar" class="icon-btn"><i class="fa-solid fa-bars"></i></button>
+                    <h1 id="page-title">Dashboard</h1>
+                </div>
+                <div class="header-right">
+                    <div class="fy-selector">
+                        <label for="fy-dropdown">Financial Year:</label>
+                        <select id="fy-dropdown" class="modern-select">
+                            <option value="FY 2024-25">FY 2024-25</option>
+                            <option value="FY 2025-26" selected>FY 2025-26</option>
+                            <option value="FY 2026-27">FY 2026-27</option>
+                        </select>
+                    </div>
+                    <div class="user-profile">
+                        <img src="https://ui-avatars.com/api/?name=Admin+User&background=0D8ABC&color=fff" alt="User Avatar" class="avatar" id="header-avatar">
+                        <span class="user-name" id="header-username">Admin / HR</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-body">
+                <!-- Dashboard Section -->
+                <section id="dashboard" class="content-section active">
+                    <div class="dashboard-header mb-4">
+                        <h2>Overview Overview - <span class="active-fy">FY 2025-26</span></h2>
+                        <p class="text-muted">Track pending actions and overall system statistics.</p>
+                    </div>
+                    
+                    <div class="summary-cards">
+                        <div class="summary-card card-blue">
+                            <div class="card-icon"><i class="fa-solid fa-user-clock"></i></div>
+                            <div class="card-info">
+                                <h3>Pending Self Assessments</h3>
+                                <p class="count" id="dash-pending-self">12</p>
+                            </div>
+                        </div>
+                        <div class="summary-card card-orange">
+                            <div class="card-icon"><i class="fa-solid fa-user-tie"></i></div>
+                            <div class="card-info">
+                                <h3>Pending Manager Reviews</h3>
+                                <p class="count" id="dash-pending-manager">8</p>
+                            </div>
+                        </div>
+                        <div class="summary-card card-purple">
+                            <div class="card-icon"><i class="fa-solid fa-clipboard-question"></i></div>
+                            <div class="card-info">
+                                <h3>Pending Potential Factor Reviews</h3>
+                                <p class="count" id="dash-pending-factor">5</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Masters Sections (Placeholders for now) -->
+                <section id="master-kra" class="content-section" style="display: none;">
+                    <div class="section-header">
+                        <h2>KRA Master</h2>
+                        <button class="btn btn-primary" onclick="openModal('kra-modal')"><i class="fa-solid fa-plus"></i> Add KRA</button>
+                    </div>
+                    <!-- Empty state placeholder -->
+                    <div class="card table-container">
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th>SI No</th>
+                                    <th>KRA Name</th>
+                                    <th>Description</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-master-kra">
+                                <tr>
+                                    <td colspan="5" class="text-center py-4">Loading Data...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Placeholder for other sections (will populate next) -->
+                <!-- KPI Master -->
+                <section id="master-kpi" class="content-section" style="display: none;">
+                    <div class="section-header">
+                        <h2>KPI Master</h2>
+                        <button class="btn btn-primary" onclick="openModal('kpi-modal')"><i class="fa-solid fa-plus"></i> Add KPI</button>
+                    </div>
+                    <div class="card table-container">
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th>SI No</th>
+                                    <th>KPI Name</th>
+                                    <th>KRA</th>
+                                    <th>UOM</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-master-kpi">
+                                <tr><td colspan="6" class="text-center py-4">Loading Data...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- UOM Master -->
+                <section id="master-uom" class="content-section" style="display: none;">
+                    <div class="section-header">
+                        <h2>UOM Master</h2>
+                        <button class="btn btn-primary" onclick="openModal('uom-modal')"><i class="fa-solid fa-plus"></i> Add UOM</button>
+                    </div>
+                    <div class="card table-container">
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th>SI No</th>
+                                    <th>UOM Name</th>
+                                    <th>Description</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-master-uom">
+                                <tr><td colspan="5" class="text-center py-4">Loading Data...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Potential Factor Master -->
+                <section id="master-potential" class="content-section" style="display: none;">
+                    <div class="section-header">
+                        <h2>Potential Factor Master</h2>
+                        <button class="btn btn-primary" onclick="openModal('potential-modal')"><i class="fa-solid fa-plus"></i> Add Potential Factor</button>
+                    </div>
+                    <div class="card table-container">
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th>SI No</th>
+                                    <th style="width: 20%">Potential Factor Name</th>
+                                    <th style="width: 50%">Rating Description</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-master-potential">
+                                <tr><td colspan="5" class="text-center py-4">Loading Data...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Star Rating Master -->
+                <section id="master-rating" class="content-section" style="display: none;">
+                    <div class="section-header">
+                        <h2>Star Rating Master</h2>
+                    </div>
+                    <div class="card table-container" style="max-width: 600px;">
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th>% Achievement</th>
+                                    <th>Rating</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-master-rating">
+                                <tr><td colspan="2" class="text-center py-4">Loading Data...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Grade Master -->
+                <section id="master-grade" class="content-section" style="display: none;">
+                    <div class="section-header">
+                        <h2>Grade Master (Rating Score)</h2>
+                    </div>
+                    <div class="card table-container" style="max-width: 600px;">
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th>Grade</th>
+                                    <th>Score</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-master-grade">
+                                <tr><td colspan="2" class="text-center py-4">Loading Data...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                <!-- KPI Allocation -->
+                <section id="alloc-kpi" class="content-section" style="display: none;">
+                    <div class="section-header">
+                        <h2>KPI Allocation</h2>
+                    </div>
+                    
+                    <div class="card p-4 mb-4" style="padding: 1.5rem;">
+                        <div style="display: flex; gap: 2rem; margin-bottom: 1.5rem;">
+                            <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                                <input type="radio" name="kpi-alloc-type" value="individual" checked> 
+                                <span class="font-medium">Individual Allocation</span>
+                            </label>
+                            <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                                <input type="radio" name="kpi-alloc-type" value="role"> 
+                                <span class="font-medium">User Role Based Allocation</span>
+                            </label>
+                        </div>
+
+                        <div id="kpi-alloc-filters" style="display: flex; gap: 1rem; align-items: flex-end;">
+                            <div class="form-group" style="margin-bottom: 0; flex:1;" id="kpi-role-selector-container" style="display:none;">
+                                <label>Select User Role</label>
+                                <select id="kpi-alloc-role" class="modern-select w-100">
+                                    <option value="">-- Select Role --</option>
+                                    <option value="BDM">Business Development Manager</option>
+                                    <option value="Admin">Administrator</option>
+                                    <option value="Lab">Lab Assistant</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0; flex:1;">
+                                <label>Select Employee</label>
+                                <select id="kpi-alloc-emp" class="modern-select w-100">
+                                    <option value="">-- Select Employee --</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-primary" id="btn-load-kpi-alloc" style="height: 42px;">Load</button>
+                        </div>
+                    </div>
+
+                    <div id="kpi-alloc-workspace" class="card table-container" style="display:none;">
+                        <div style="padding: 1rem 1.5rem; background: var(--primary-light); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color);">
+                            <div id="kpi-alloc-info" class="font-medium text-primary"></div>
+                            <button class="btn btn-primary" onclick="openModal('kpi-select-modal')"><i class="fa-solid fa-plus"></i> Add KPI Row</button>
+                        </div>
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th style="width:40%;">KPI</th>
+                                    <th>KRA</th>
+                                    <th>UOM</th>
+                                    <th style="width:12%;">Target Value</th>
+                                    <th style="width:12%;">Weightage %</th>
+                                    <th style="width:5%;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-alloc-kpi">
+                                <!-- empty initially -->
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="4" class="text-right font-medium">Total Weightage:</td>
+                                    <td id="kpi-alloc-total-weight" class="font-medium text-lg">0</td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <div style="padding: 1.5rem; text-align: right; border-top: 1px solid var(--border-light);">
+                            <button class="btn btn-success" id="btn-save-kpi-alloc" style="background:var(--success); color:white;"><i class="fa-solid fa-check"></i> Save Allocation</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Potential Factor Allocation -->
+                <section id="alloc-potential" class="content-section" style="display: none;">
+                    <div class="section-header">
+                        <h2>Potential Factor Allocation</h2>
+                    </div>
+                    <div class="card p-4" style="padding: 1.5rem; max-width: 800px;">
+                        <div style="display: flex; gap: 2rem; margin-bottom: 1.5rem;">
+                            <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                                <input type="radio" name="pf-alloc-type" value="individual" checked> 
+                                <span class="font-medium">Individual Employee</span>
+                            </label>
+                            <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                                <input type="radio" name="pf-alloc-type" value="role"> 
+                                <span class="font-medium">User Role Based</span>
+                            </label>
+                        </div>
+
+                        <div class="form-group" id="pf-role-selector-container" style="display:none;">
+                            <label>Select User Role</label>
+                            <select id="pf-alloc-role" class="modern-select w-100">
+                                <option value="">-- Select Role --</option>
+                                <option value="BDM">Business Development Manager</option>
+                                <option value="Admin">Administrator</option>
+                                <option value="Lab">Lab Assistant</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Select Employee</label>
+                            <select id="pf-alloc-emp" class="modern-select w-100">
+                                <option value="">-- Select Employee --</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group mt-4" style="margin-top: 2rem;">
+                            <label>Select Potential Factors</label>
+                            <div class="card" style="border: 1px solid var(--border-color); padding: 1rem; max-height: 250px; overflow-y: auto;" id="pf-alloc-checkboxes">
+                                <!-- Checkboxes populated by JS -->
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 1.5rem; text-align:right;">
+                            <button class="btn btn-primary" id="btn-save-pf-alloc"><i class="fa-solid fa-check"></i> Save Allocation</button>
+                        </div>
+                    </div>
+                </section>
+                <!-- Employee My KPIs -->
+                <section id="emp-my-kpis" class="content-section" style="display: none;">
+                    <div class="section-header">
+                        <h2>My Allocated KPIs</h2>
+                    </div>
+                    <div class="card table-container">
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th>SI No</th>
+                                    <th>KRA</th>
+                                    <th style="width: 40%">KPI</th>
+                                    <th>UOM</th>
+                                    <th>Target</th>
+                                    <th>Weightage (%)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-emp-my-kpis">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Employee Self Assessment -->
+                <section id="emp-self-assessment" class="content-section" style="display: none;">
+                    <div class="section-header">
+                        <h2>Self Assessment</h2>
+                    </div>
+                    <div class="card p-4" style="padding: 1.5rem; overflow-x: auto;">
+                        <p class="text-muted" style="margin-bottom: 1rem;">Enter achievements for the current active quarter.</p>
+                        
+                        <table class="modern-table" style="min-width: 1200px;">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2">SI No</th>
+                                    <th rowspan="2">KRA</th>
+                                    <th rowspan="2" style="width: 20%">KPI</th>
+                                    <th rowspan="2">UOM</th>
+                                    <th rowspan="2">Target</th>
+                                    <th rowspan="2">Weightage</th>
+                                    <!-- Q1 active example -->
+                                    <th colspan="3" class="text-center" style="background:var(--primary-light); color:var(--primary);">Q1 (Apr-Jun)</th>
+                                    <th rowspan="2" style="background:#FEF3C7;">Score (Manual)</th>
+                                    <th rowspan="2" style="background:#FEF3C7;">% Achv</th>
+                                    <th rowspan="2" style="background:#FEF3C7;">Star Rating</th>
+                                </tr>
+                                <tr>
+                                    <th style="background:var(--primary-light); color:var(--primary);">Apr</th>
+                                    <th style="background:var(--primary-light); color:var(--primary);">May</th>
+                                    <th style="background:var(--primary-light); color:var(--primary);">Jun</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-emp-self-assess">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                        
+                        <!-- Audit Log / History View -->
+                        <div style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+                            <h4><i class="fa-solid fa-clock-rotate-left"></i> Rating Audit Log</h4>
+                            <div class="text-muted text-sm" style="margin-top:0.5rem;" id="emp-audit-log">
+                                <em>No rating changes recorded.</em>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 1.5rem; text-align:right;">
+                            <button class="btn btn-secondary" onclick="alert('Draft Saved!')">Save as Draft</button>
+                            <button class="btn btn-primary" onclick="alert('Submitted for Manager Review!')">Submit Assessment</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Employee Behavioural Assessment View -->
+                <section id="emp-behavioural-view" class="content-section" style="display: none;">
+                    <div class="section-header">
+                        <h2>Behavioural Assessment View</h2>
+                    </div>
+                    
+                    <div class="card p-4" style="padding: 1.5rem; margin-bottom:1.5rem;">
+                        <h3 style="margin-bottom: 1rem;">H1 - First Half Year</h3>
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th>SI No</th>
+                                    <th>Potential Factor</th>
+                                    <th style="width: 40%">Rating Factor</th>
+                                    <th>Grade</th>
+                                    <th>Total Score</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-emp-behav-h1">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="card p-4" style="padding: 1.5rem;">
+                        <h3 style="margin-bottom: 1rem;">H2 - Second Half Year <span class="badge badge-secondary" style="font-size:0.75rem;">Pending</span></h3>
+                        <table class="modern-table" style="opacity: 0.6;">
+                            <thead>
+                                <tr>
+                                    <th>SI No</th>
+                                    <th>Potential Factor</th>
+                                    <th style="width: 40%">Rating Factor</th>
+                                    <th>Grade</th>
+                                    <th>Total Score</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td colspan="5" class="text-center text-muted">Assessment not yet completed by manager.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                <!-- Manager KPI Review -->
+                <section id="mgr-kpi-review" class="content-section" style="display: none;">
+                    <div class="section-header">
+                        <h2>Manager KPI Review</h2>
+                    </div>
+                    <div class="card p-4" style="padding: 1.5rem; overflow-x: auto;">
+                        <div style="display: flex; gap: 1rem; align-items: flex-end; margin-bottom: 1.5rem;">
+                            <div class="form-group" style="margin-bottom: 0; flex:1;">
+                                <label>Pending Employee Submissions</label>
+                                <select id="mgr-emp-select" class="modern-select w-100">
+                                    <option value="">-- Select Employee --</option>
+                                    <option value="Priya Menon">Priya Menon</option>
+                                    <option value="Anoop">Anoop</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-primary" onclick="renderManagerKpiReview()" style="height: 42px;">Load Review</button>
+                        </div>
+                        
+                        <div id="mgr-kpi-workspace" style="display:none;">
+                            <div style="padding: 1rem; background: var(--warning); color: #78350F; font-weight: 500; border-radius: var(--radius-md); margin-bottom: 1rem;">
+                                Showing active quarter (Q1) for <strong>Priya Menon</strong>. The employee has submitted their self-assessment.
+                            </div>
+                            <table class="modern-table" style="min-width: 1400px;">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2">SI No</th>
+                                        <th rowspan="2">KRA</th>
+                                        <th rowspan="2" style="width: 15%">KPI</th>
+                                        <th rowspan="2">UOM</th>
+                                        <th rowspan="2">Target</th>
+                                        <th rowspan="2">Wght</th>
+                                        <!-- Q1 active -->
+                                        <th colspan="3" class="text-center" style="background:var(--primary-light);">Q1 (Apr-Jun) <br><small class="text-muted">Read Only</small></th>
+                                        <th rowspan="2">Emp Score</th>
+                                        <th rowspan="2">Emp % Achv</th>
+                                        <th rowspan="2">Emp Star</th>
+                                        <th rowspan="2" style="background:#E0E7FF;">Mgr Star Rating</th>
+                                        <th rowspan="2" style="background:#E0E7FF; width:15%">Mgr Comment</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="background:var(--primary-light);">Apr</th>
+                                        <th style="background:var(--primary-light);">May</th>
+                                        <th style="background:var(--primary-light);">Jun</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody-mgr-kpi-review">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+
+                            <div style="margin-top: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+                                <button class="btn btn-secondary" onclick="alert('Audit History window would open here.')"><i class="fa-solid fa-clock-rotate-left"></i> View History</button>
+                                <div style="display:flex; gap: 1rem;">
+                                    <button class="btn btn-secondary" onclick="alert('Draft Saved!')">Save Draft</button>
+                                    <button class="btn btn-success" style="background:var(--success); color:white;" onclick="alert('Review Submitted!')">Submit Review</button>
+                                    <button class="btn btn-primary" onclick="alert('Forwarded to L2 Manager!')">Forward to L2 Manager</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Manager Behavioural Review -->
+                <section id="mgr-behavioural-review" class="content-section" style="display: none;">
+                    <div class="section-header">
+                        <h2>Manager Behavioural Review</h2>
+                    </div>
+                    <div class="card p-4" style="padding: 1.5rem;">
+                        <div style="display: flex; gap: 1rem; align-items: flex-end; margin-bottom: 1.5rem;">
+                            <div class="form-group" style="margin-bottom: 0; flex:1;">
+                                <label>Select Employee</label>
+                                <select id="mgr-behav-emp-select" class="modern-select w-100">
+                                    <option value="">-- Select Employee --</option>
+                                    <option value="Priya Menon">Priya Menon</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-primary" onclick="renderManagerBehavReview()" style="height: 42px;">Load Review</button>
+                        </div>
+
+                        <div id="mgr-behav-workspace" style="display: none;">
+                            <h3 style="margin-bottom: 1rem;">H1 - First Half Year Assessment</h3>
+                            <table class="modern-table">
+                                <thead>
+                                    <tr>
+                                        <th>SI No</th>
+                                        <th>Potential Factor</th>
+                                        <th style="width: 30%">Rating Factor Description</th>
+                                        <th style="width: 15%">Grade</th>
+                                        <th>Score</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody-mgr-behav-review">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                                <tfoot>
+                                    <tr style="background: var(--bg-main);">
+                                        <td colspan="4" class="text-right font-medium">Final calculated percentage:</td>
+                                        <td id="mgr-behav-total-score" class="font-medium text-lg text-primary">0%</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+
+                            <div class="form-group mt-4" style="margin-top:2rem;">
+                                <label>Manager Overall Comment</label>
+                                <textarea class="modern-textarea" placeholder="Add developmental feedback for the employee..."></textarea>
+                            </div>
+
+                            <div style="margin-top: 1.5rem; text-align:right;">
+                                <button class="btn btn-primary" onclick="alert('Behavioural Assessment Submitted!')">Submit Behavioural Assessment</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- L2 Manager KPI Review -->
+                <section id="l2mgr-kpi-review" class="content-section" style="display: none;">
+                    <div class="section-header">
+                        <h2>L2 Manager KPI Review</h2>
+                    </div>
+                    <div class="card p-4" style="padding: 1.5rem; overflow-x: auto;">
+                        <div style="display: flex; gap: 1rem; align-items: flex-end; margin-bottom: 1.5rem;">
+                            <div class="form-group" style="margin-bottom: 0; flex:1;">
+                                <label>Pending Manager Submissions</label>
+                                <select id="l2mgr-emp-select" class="modern-select w-100">
+                                    <option value="">-- Select Review --</option>
+                                    <option value="Priya Menon">Priya Menon (Mgr: Akash)</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-primary" onclick="renderL2ManagerKpiReview()" style="height: 42px;">Load Review</button>
+                        </div>
+                        
+                        <div id="l2mgr-kpi-workspace" style="display:none;">
+                            <div style="padding: 1rem; background: var(--info); color: white; font-weight: 500; border-radius: var(--radius-md); margin-bottom: 1rem;">
+                                Active quarter (Q1) for <strong>Priya Menon</strong>. Forwarded by Reporting Manager.
+                            </div>
+                            <table class="modern-table" style="min-width: 1500px;">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2">SI No</th>
+                                        <th rowspan="2">KRA</th>
+                                        <th rowspan="2" style="width: 15%">KPI</th>
+                                        <!-- Condensed data for L2 space -->
+                                        <th rowspan="2">Emp % Achv</th>
+                                        <th rowspan="2">Emp Star</th>
+                                        <th rowspan="2" style="background:#FEF3C7;">Mgr Star</th>
+                                        <th rowspan="2" style="background:#FEF3C7; width:15%">Mgr Comment</th>
+                                        <th rowspan="2" style="background:#D1FAE5;">L2 Mgr Star Rating</th>
+                                        <th rowspan="2" style="background:#D1FAE5; width:15%">L2 Mgr Comment</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody-l2mgr-kpi-review">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+
+                            <div style="margin-top: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+                                <button class="btn btn-secondary" onclick="alert('Audit History window would open here.')"><i class="fa-solid fa-clock-rotate-left"></i> View History</button>
+                                <div style="display:flex; gap: 1rem;">
+                                    <button class="btn btn-success" style="background:var(--success); color:white;" onclick="alert('Approved & Finalized!')"><i class="fa-solid fa-check-double"></i> Approve and Finalize</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Overlay -->
+    <div id="modal-overlay" class="modal-overlay"></div>
+
+    <!-- Add KPI Row Modal (Allocation) -->
+    <div id="kpi-select-modal" class="custom-modal" style="max-width: 800px;">
+        <div class="modal-header">
+            <h3>Select KPIs to Add</h3>
+            <button class="icon-btn close-modal"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="modal-body" style="padding: 0;">
+            <div style="padding: 1rem 1.5rem; border-bottom: 1px solid var(--border-color); background: var(--bg-main);">
+                <input type="text" id="kpi-search-input" class="modern-input" placeholder="Search KPI..." style="background: white;">
+            </div>
+            <div style="max-height: 400px; overflow-y: auto;">
+                <table class="modern-table" style="margin: 0;">
+                    <thead style="position: sticky; top: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); z-index: 5;">
+                        <tr>
+                            <th style="width: 50px;">
+                                <input type="checkbox" id="kpi-select-all" style="cursor: pointer;">
+                            </th>
+                            <th>KPI Name</th>
+                            <th>KRA</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-kpi-select">
+                        <!-- populated via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary close-modal">Cancel</button>
+            <button class="btn btn-primary" onclick="submitAddedKPIs()">Submit</button>
+        </div>
+    </div>
+
+    <!-- KRA Modal -->
+    <div id="kra-modal" class="custom-modal">
+        <div class="modal-header">
+            <h3>Add / Edit KRA</h3>
+            <button class="icon-btn close-modal"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label>KRA Name</label>
+                <input type="text" id="kra-name-input" class="modern-input" placeholder="Enter KRA name">
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea id="kra-desc-input" class="modern-input" rows="3" placeholder="Enter description"></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary close-modal">Cancel</button>
+            <button class="btn btn-primary" onclick="saveKRA()">Save KRA</button>
+        </div>
+    </div>
+
+    <!-- KPI Modal -->
+    <div id="kpi-modal" class="custom-modal">
+        <div class="modal-header">
+            <h3>Add / Edit KPI</h3>
+            <button class="icon-btn close-modal"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label>KPI Name</label>
+                <textarea id="kpi-name-input" class="modern-input" rows="3" placeholder="Enter KPI name"></textarea>
+            </div>
+            <div class="form-group">
+                <label>KRA</label>
+                <select id="kpi-kra-input" class="modern-select w-100"></select>
+            </div>
+            <div class="form-group">
+                <label>Unit of Measurement</label>
+                <select id="kpi-uom-input" class="modern-select w-100"></select>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary close-modal">Cancel</button>
+            <button class="btn btn-primary" onclick="saveKPI()">Save KPI</button>
+        </div>
+    </div>
+
+    <!-- UOM Modal -->
+    <div id="uom-modal" class="custom-modal">
+        <div class="modal-header">
+            <h3>Add / Edit UOM</h3>
+            <button class="icon-btn close-modal"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label>UOM Name</label>
+                <input type="text" id="uom-name-input" class="modern-input" placeholder="E.g., Percentage, Number">
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <input type="text" id="uom-desc-input" class="modern-input" placeholder="Enter description">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary close-modal">Cancel</button>
+            <button class="btn btn-primary" onclick="saveUOM()">Save UOM</button>
+        </div>
+    </div>
+
+    <!-- Potential Factor Modal -->
+    <div id="potential-modal" class="custom-modal">
+        <div class="modal-header">
+            <h3>Add / Edit Potential Factor</h3>
+            <button class="icon-btn close-modal"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="modal-body" style="max-height: 60vh; overflow-y: auto;">
+            <div class="form-group">
+                <label>Potential Factor Name</label>
+                <input type="text" id="pf-name-input" class="modern-input" placeholder="Enter factor name">
+            </div>
+            <div class="form-group">
+                <label>Rating Description (E)</label>
+                <textarea id="pf-e-input" class="modern-input" rows="2" placeholder="Exceptional description"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Rating Description (M)</label>
+                <textarea id="pf-m-input" class="modern-input" rows="2" placeholder="Meets expectations description"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Rating Description (P)</label>
+                <textarea id="pf-p-input" class="modern-input" rows="2" placeholder="Partially meets description"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Rating Description (F)</label>
+                <textarea id="pf-f-input" class="modern-input" rows="2" placeholder="Fails to meet description"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Remarks</label>
+                <input type="text" id="pf-remarks-input" class="modern-input" placeholder="Any remarks">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary close-modal">Cancel</button>
+            <button class="btn btn-primary" onclick="savePotentialFactor()">Save</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
